@@ -32,8 +32,8 @@ templates = ['1cv82buh', '1cv77buh', '1cv82zik', '1cv82ahd']
 
 # Функция проверки наличия файлов в каталогах
 def verify_files(vpath=[r'D:\Backup\1C', r'\\NAS\copy1c\py_backup'],
-                vtempl=['1cv82buh', '1cv77buh', '1cv82zik', '1cv82ahd'],
-                timetempl=time.strftime('%Y%m%d')):
+                 vtempl=['1cv82buh', '1cv77buh', '1cv82zik', '1cv82ahd'],
+                 timetempl=time.strftime('%Y%m%d')):
 
     files_found = []
     print('in function verifyfiles')
@@ -47,6 +47,7 @@ def verify_files(vpath=[r'D:\Backup\1C', r'\\NAS\copy1c\py_backup'],
         fmtime = time.localtime(os.path.getmtime(i))
         file_info[i] = [str(fsize), time.strftime('%Y-%m-%d, %H:%M', fmtime)]
     return file_info
+
 
 # Функция отправки сообщения
 def mail_send(fromaddr, toaddr, subject, message):
@@ -70,7 +71,8 @@ def main():
     message += 'Finded files:\n\n'
     ff = verify_files(vpath=pathes)
     for i in sorted(ff):
-         message += '{}, Size: {} KB, Time modif: {}\n'.format(i, ff[i][0], ff[i][1])
+        message += '{}, Size: {} KB, Time modif: {}\n'.format(i, ff[i][0],
+                                                              ff[i][1])
     print(message)
 #    print('\n\n********** mail send off!!! *********\n\n')
     mail_send(sender, recipients, subject, message)

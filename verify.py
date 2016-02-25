@@ -10,7 +10,7 @@ import platform
 import smtplib
 import os
 import glob
-
+import sys
 
 # Пути проверки
 pathes = [r'D:\Backup\1C', r'\\NAS\copy1c\py_backup']
@@ -70,12 +70,14 @@ def main():
     message += '\nTemplates:' + ', '.join(templates) + '\n\n'
     message += 'Finded files:\n\n'
     ff = verify_files(vpath=pathes)
-    for i in sorted(ff):
-        message += '{}, Size: {} KB, Time modif: {}\n'.format(i, ff[i][0],
-                                                              ff[i][1])
+    for i in sorted(ff, key=lambda s: s[-26:]):
+        message += '{} KB, {}, {}\n'.format(ff[i][0], ff[i][1], i)
     print(message)
-#    print('\n\n********** mail send off!!! *********\n\n')
-    mail_send(sender, recipients, subject, message)
+    if len(sys.argv) == 1:
+        mail_send(sender, recipients, subject, message)
+    else:
+        print('\n\n!!!!!!!!!!!!!!   NO MAIL!  !!!!!!!!!!!!!!!')
+
 
 
 if __name__ == '__main__':
